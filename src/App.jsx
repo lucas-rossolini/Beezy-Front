@@ -1,24 +1,17 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Home, Page404 } from 'pages';
-import { Header, Footer } from 'components';
+import { Home, Page404 } from './pages';
 
 import './App.scss';
 
-function App() {
+const App = function App() {
   return (
-    <>
-      <Header />
-
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="*" element={<Page404 />} />
-      </Routes>
-
-      <Footer />
-    </>
+    <Routes>
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="*" element={<Page404 />} />
+    </Routes>
   );
-}
+};
 
 export default App;

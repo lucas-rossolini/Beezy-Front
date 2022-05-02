@@ -1,11 +1,20 @@
 import React from 'react';
 
-function Home() {
+import { DashboardContent, NavBar } from '../components';
+
+const Home = function Home() {
   return (
-    <main className="home">
-      <h1>Home Here !</h1>
-    </main>
+    <>
+      {/* <Header /> */}
+
+      <div className="flex flex-col w-screen h-screen bg-white">
+        <NavBar />
+        <DashboardContent />
+      </div>
+
+      {/* <Footer /> */}
+    </>
   );
-}
+};
 
 export default Home;
