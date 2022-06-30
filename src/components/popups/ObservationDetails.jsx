@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createObservation, updateObservation } from '../../api/observations';
 import InputDate from '../inputs/InputDate';
 import InputSelectBool from '../inputs/InputSelectBool';
-import InputSelectStatus from '../inputs/InputSelectStatus';
+import InputSelectStatus from '../inputs/InputSelectState';
 import ButtonPrimary from '../Buttons/ButtonPrimary';
 
 // POPUP POUR MODIFIER LES OBSERVATIONS

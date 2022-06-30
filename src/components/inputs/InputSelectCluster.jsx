@@ -6,10 +6,9 @@ const InputSelectBool = function InputSelectBool({
   funct,
   defaultValue,
 }) {
-  const [bool, setBool] = useState(defaultValue);
+  const [cluster, setCluster] = useState(defaultValue);
 
-  funct(/true/i.test(bool));
-
+  funct(parseInt(cluster, 10));
   return (
     <label htmlFor={id} className="block">
       <span className="text-gray-700">{titreLabel}</span>
@@ -17,10 +16,12 @@ const InputSelectBool = function InputSelectBool({
         className="w-full border border-gray-300 rounded-md"
         name="select"
         id="select"
-        onChange={(e) => setBool(e.target.value)}
+        onChange={(e) => setCluster(e.target.value)}
       >
-        <option value="false">Non</option>
-        <option value="true">Oui</option>
+        <option value={0}>--</option>
+        <option value={1}>Alençon</option>
+        <option value={2}>Neuilly</option>
+        <option value={3}>Condé</option>
       </select>
     </label>
   );

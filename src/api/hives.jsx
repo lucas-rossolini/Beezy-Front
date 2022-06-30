@@ -4,11 +4,17 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_DATABASE_URL,
 });
 
+const token = 'martin@vivelamorve.org';
+
 const allHives = () =>
   new Promise((resolve, reject) => {
     (async () => {
       try {
-        const response = await api.get(`/hives`);
+        const response = await api.get(`/hives`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
         resolve(response.data);
       } catch (err) {
         reject(err);

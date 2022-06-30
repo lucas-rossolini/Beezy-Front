@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createHive, updateHive } from '../../api/hives';
-import InputText from '../inputs/InputText';
-import ButtonPrimary from '../Buttons/ButtonPrimary';
+import {
+  InputText,
+  InputSelectCluster,
+  InputSelectState,
+  InputSelectBool,
+  InputNumber,
+} from '../inputs';
+import ButtonModal from '../Buttons/ButtonModal';
 
-// POPUP POUR MODIFIER LES MAGASINS
+// POPUP POUR MODIFIER LES RUCHES
 
-const MagDetails = function MagDetails({ item, bgHide }) {
+const HiveModal = function HiveModal({ item, bgHide }) {
   const popup = useRef();
   const { data } = item;
 
@@ -14,7 +20,7 @@ const MagDetails = function MagDetails({ item, bgHide }) {
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
 
   /**
-   * Fonction pour mettre à jour les données du magasin en fonction des inputs modifier
+   * Fonction pour mettre à jour les données de la ruche en fonction des inputs modifiés
    * @param {strign} value
    * @param {string} type
    */
@@ -24,11 +30,43 @@ const MagDetails = function MagDetails({ item, bgHide }) {
     setNewHive(newData);
   };
   /**
-   * Fonction pour changer le nom
+   * Fonction pour changer le nom de la ruche
    * @param {string} value
    */
-  const handleNom = (value) => {
-    hiveUpdate(value, 'name');
+  const handleLabel = (value) => {
+    hiveUpdate(value, 'label');
+  };
+
+  /**
+   * Fonction pour changer le nom de la ruche
+   * @param {int} value
+   */
+  const handleClusterId = (value) => {
+    hiveUpdate(value, 'cluster_id');
+  };
+
+  /**
+   * Fonction pour changer le nom de la ruche
+   * @param {int} value
+   */
+  const handleSuperNumber = (value) => {
+    hiveUpdate(value, 'honey_super');
+  };
+
+  /**
+   * Fonction pour changer le nom de la ruche
+   * @param {int} value
+   */
+  const handleState = (value) => {
+    hiveUpdate(value, 'state');
+  };
+
+  /**
+   * Fonction pour changer le nom de la ruche
+   * @param {boolean} value
+   */
+  const handleSwarmingRisk = (value) => {
+    hiveUpdate(value, 'swarming_risk');
   };
 
   // fermeture de la popup au click en dehors
@@ -60,7 +98,7 @@ const MagDetails = function MagDetails({ item, bgHide }) {
         <div className="z-10 w-full h-auto max-w-xl p-10 overflow-y-scroll bg-white border-gray-100 rounded-lg shadow-xl">
           <div className="flex flex-row justify-between">
             <div className="text-xl font-medium text-gray-800">
-              Nom de la ruche
+              Création d&apos;une nouvelle ruche
             </div>
             <svg
               onClick={() => bgHide()}
@@ -81,16 +119,51 @@ const MagDetails = function MagDetails({ item, bgHide }) {
           <div className="grid grid-cols-1 gap-6">
             <div>
               <InputText
-                initial={data.name}
-                titreLabel="Nom"
+                initial={data.label}
+                titreLabel="Nom de la ruche"
                 placeholder="ex. La ruche verte"
-                funct={handleNom}
-                id="hiveNom"
+                funct={handleLabel}
+                id="hiveLabel"
+              />
+            </div>
+            <div>
+              <InputSelectCluster
+                titreLabel="Rucher"
+                funct={handleClusterId}
+                id="clusterId"
+                defaultValue={0}
+              />
+            </div>
+            <div>
+              <InputNumber
+                initial={data.honey_super}
+                titreLabel="Nombre de hausses"
+                placeholder="ex. 1"
+                funct={handleSuperNumber}
+                id="honey_super"
+                defaultValue={0}
+              />
+            </div>
+            <div>
+              <InputSelectState
+                initial={data.state}
+                titreLabel="État général de la ruche"
+                funct={handleState}
+                id="state"
+                defaultValue={1}
+              />
+            </div>
+            <div>
+              <InputSelectBool
+                initial={data.swarming_risk}
+                titreLabel="Risque d'essaimage"
+                funct={handleSwarmingRisk}
+                id="swarming_risk"
+                defaultValue="false"
               />
             </div>
           </div>
-          <div className="w-full h-px my-6 bg-gray-200" />
-          <ButtonPrimary text="Ajouter la ruche" onClick={handleNewHive} />
+          <ButtonModal text="Ajouter la ruche" onClick={handleNewHive} />
         </div>
       </div>
     );
@@ -105,7 +178,7 @@ const MagDetails = function MagDetails({ item, bgHide }) {
   /**
    * Fonction pour envoyer les modifications sur le back
    */
-  const handleChangeMag = async () => {
+  const handleChangeHive = async () => {
     await updateHive(newHive, data.hive_id).catch(() => false);
     window.location.reload(false);
   };
@@ -141,7 +214,7 @@ const MagDetails = function MagDetails({ item, bgHide }) {
         <div className="w-full h-px my-6 bg-gray-200" />
         <div className="w-full h-px my-6 bg-gray-200" />
 
-        <ButtonPrimary
+        <ButtonModal
           text="Sauvegarder les modifications"
           onClick={handleConfirmUpdate}
         />
@@ -158,14 +231,14 @@ const MagDetails = function MagDetails({ item, bgHide }) {
           <div className="py-8 px-14 bg-white border-gray-200 rounded-lg z-50  border-2 shadow-md text-center">
             <div className="flex justify-center items-center my-5 text-gray-600">
               <span className="ml-3 text-2xl">
-                Etes-vous sûr de vouloir modifier les données de ce magasin ?
+                Etes-vous sûr de vouloir modifier les données de cette ruche ?
               </span>
             </div>
             <div className="flex justify-around">
               <button
                 type="button"
                 className="py-2 px-8 bg-blue-600 text-blue-100 rounded-full font-medium shadow-md w-2/5"
-                onClick={handleChangeMag}
+                onClick={handleChangeHive}
               >
                 Confirmer
               </button>
@@ -186,4 +259,4 @@ const MagDetails = function MagDetails({ item, bgHide }) {
   );
 };
 
-export default MagDetails;
+export default HiveModal;

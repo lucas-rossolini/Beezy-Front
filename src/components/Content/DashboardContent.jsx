@@ -44,28 +44,30 @@ const DashboardContent = function DashboardContent() {
   //   });
   // };
 
-  const bgRed = 'redCard';
-
   return (
-    <div className="w-full h-full p-8 overflow-y-scroll">
+    <div className="w-full p-8 md:flex md:justify-between">
       {/* {popup.show ? <HiveDetails item={popup} bgHide={bgHidePopup} /> : null} */}
-      <Header title="Bonjour Pascal" text=" " />
-      <BigCard hivesList={list} />
-      <div className="md:w-1/2 md:ml-72 md:grid md:gap-10 md:grid-cols-2 md:grid-rows-2 md:mt-10">
-        <SmallCard bgColor={bgRed} title="Ruches en danger" icon={danger} />
-        <SmallCard bgColor="greenCard" title="Ruches en santé" icon={check} />
-        <SmallCard
-          bgColor="purpleCard"
-          title="Ruches à surveiller"
-          icon={magnifier}
-        />
-        <SmallCard
-          bgColor="blueCard"
-          title="Risque d'essaimage"
-          icon={flyingBee}
-        />
+      <div className="md:ml-72 md:min-w-1/2">
+        <Header title="Bonjour Pascal" text=" " />
+        <BigCard hivesList={list} />
+        <div className="md:grid md:gap-10 md:grid-cols-2 md:grid-rows-2 md:mt-10">
+          <SmallCard bgColor="redCard" title="Ruches en danger" icon={danger} />
+          <SmallCard bgColor="greenCard" title="Ruches en santé" icon={check} />
+          <SmallCard
+            bgColor="purpleCard"
+            title="Ruches à surveiller"
+            icon={magnifier}
+          />
+          <SmallCard
+            bgColor="blueCard"
+            title="Risque d'essaimage"
+            icon={flyingBee}
+          />
+        </div>
       </div>
-      <LongCard title="Suivi des ruches" icon={check} />
+      <div className="md:mr-12">
+        <LongCard title="Suivi des ruches" icon={check} />
+      </div>
     </div>
   );
 };

@@ -12,6 +12,8 @@ import flyingBee from './flying-bee-icon.svg';
 import bug from './bug-icon.svg';
 import forkKnife from './fork-knife-icon.svg';
 import division from './division-icon.svg';
+import summary from './summary-icon.svg';
+import dots from './dots-icon.svg';
 
 // Export
 export {
@@ -28,4 +30,6 @@ export {
   bug,
   forkKnife,
   division,
+  summary,
+  dots,
 };

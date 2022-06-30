@@ -1,24 +1,21 @@
-import { React, useState } from 'react';
+import React from 'react';
 
-const InputNumber = function InputNumber({
+const InputMail = function InputMail({
   id,
-  defaultValue,
   titreLabel,
   placeholder,
   funct,
+  initial,
 }) {
-  const [num, setNum] = useState(defaultValue);
-
-  funct(parseInt(num, 10));
   return (
     <label htmlFor={id} className="block">
       <span className="text-gray-700">{titreLabel}</span>
       <input
         id={id}
-        defaultValue={defaultValue}
-        min={0}
-        onChange={(e) => setNum(e.target.value)}
-        type="number"
+        defaultValue={initial}
+        autoComplete="email"
+        onChange={(e) => funct(e.target.value)}
+        type="email"
         placeholder={placeholder}
         className="block w-full mt-1 mb-3 bg-gray-100 border border-gray-200 rounded-md focus:border-gray-500 focus:bg-white focus:ring-0"
       />
@@ -26,4 +23,4 @@ const InputNumber = function InputNumber({
   );
 };
 
-export default InputNumber;
+export default InputMail;

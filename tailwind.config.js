@@ -11,14 +11,19 @@ module.exports = {
         lightGreyIcons: '#E2E2E2',
         greyIcons: '#ECE3C0',
         greyFonts: '#AAA799',
+        lightGreyFonts: '#7B7B7B',
       },
       fontSize: {
         xxs: '10px',
       },
       maxWidth: {
+        icon20: '20px',
         icon26: '26px',
         navbar: '46px',
         leftNavbar: '250px',
+      },
+      minWidth: {
+        '1/2': '50%',
       },
       borderRadius: {
         cardRadius: '30px',
