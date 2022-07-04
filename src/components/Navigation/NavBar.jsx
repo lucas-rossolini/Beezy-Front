@@ -1,7 +1,12 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { home, hive, eye, location, settings } from '../../assets/icons/index';
+import {
+  home,
+  hive,
+  eye,
+  /* location, */ settings,
+} from '../../assets/icons/index';
 
 const NavBar = function NavBar() {
   const currentLocation = useLocation();
@@ -11,7 +16,7 @@ const NavBar = function NavBar() {
     { icon: home, name: 'Accueil', path: '/home' },
     { icon: hive, name: 'Ruches', path: '/hives' },
     { icon: eye, name: 'Visites', path: '/visits' },
-    { icon: location, name: 'Ruchers', path: '/apiaries' },
+    // { icon: location, name: 'Ruchers', path: '/apiaries' },
     { icon: settings, name: 'Paramètres', path: '/settings' },
   ];
   return (

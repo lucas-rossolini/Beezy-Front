@@ -1,14 +1,18 @@
 import React from 'react';
 import { check, danger, magnifier } from 'src/assets/icons';
+import moment from 'moment';
+import 'moment/locale/fr';
 
-const HiveCard = function HiveCard({ title, state }) {
+moment.locale('fr');
+
+const HiveCard = function HiveCard({ title, state, lastVisit }) {
   const cardStyle = 'rounded-cardRadius flex mt-5 px-7 py-5';
 
   const bgColors = [
     `${cardStyle} bg-slate-100`,
     `${cardStyle} bg-greenCard`,
-    `${cardStyle} bg-redCard`,
     `${cardStyle} bg-purpleCard`,
+    `${cardStyle} bg-redCard`,
   ];
 
   const setIcon = () => {
@@ -16,10 +20,10 @@ const HiveCard = function HiveCard({ title, state }) {
       return check;
     }
     if (state === 2) {
-      return danger;
+      return magnifier;
     }
     if (state === 3) {
-      return magnifier;
+      return danger;
     }
 
     return '';
@@ -41,7 +45,9 @@ const HiveCard = function HiveCard({ title, state }) {
           <div className="flex flex-col">
             <h3 className="text-black text-xl">{title}</h3>
             <span className="text-xs text-lightGreyFonts pt-1">
-              Dernière visite le 21 février 2022
+              {lastVisit !== null
+                ? `Dernière visite le ${moment(lastVisit).format('LL')}`
+                : 'Aucune visite pour le moment'}
             </span>
           </div>
         </div>

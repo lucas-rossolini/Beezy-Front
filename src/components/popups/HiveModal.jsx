@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { createHive, updateHive } from '../../api/hives';
 import {
   InputText,
@@ -9,6 +8,7 @@ import {
   InputNumber,
 } from '../inputs';
 import ButtonModal from '../Buttons/ButtonModal';
+import clusters from '../../api/fake/clusters';
 
 // POPUP POUR MODIFIER LES RUCHES
 
@@ -28,6 +28,7 @@ const HiveModal = function HiveModal({ item, bgHide }) {
     const newData = newHive;
     newData[type] = value;
     setNewHive(newData);
+    delete newHive.last_visit_date;
   };
   /**
    * Fonction pour changer le nom de la ruche
@@ -38,7 +39,7 @@ const HiveModal = function HiveModal({ item, bgHide }) {
   };
 
   /**
-   * Fonction pour changer le nom de la ruche
+   * Fonction pour changer l'id du rucher
    * @param {int} value
    */
   const handleClusterId = (value) => {
@@ -46,7 +47,15 @@ const HiveModal = function HiveModal({ item, bgHide }) {
   };
 
   /**
-   * Fonction pour changer le nom de la ruche
+   * Fonction pour changer l'année de la reine'
+   * @param {int} value
+   */
+  const handleQueenBirth = (value) => {
+    hiveUpdate(value, 'queen_birth');
+  };
+
+  /**
+   * Fonction pour changer le nombre de hausses
    * @param {int} value
    */
   const handleSuperNumber = (value) => {
@@ -54,7 +63,15 @@ const HiveModal = function HiveModal({ item, bgHide }) {
   };
 
   /**
-   * Fonction pour changer le nom de la ruche
+   * Fonction pour changer l'état de la ruche'
+   * @param {int} value
+   */
+  const handleBehaviour = (value) => {
+    hiveUpdate(value, 'behaviour');
+  };
+
+  /**
+   * Fonction pour changer l'état de la ruche'
    * @param {int} value
    */
   const handleState = (value) => {
@@ -62,7 +79,7 @@ const HiveModal = function HiveModal({ item, bgHide }) {
   };
 
   /**
-   * Fonction pour changer le nom de la ruche
+   * Fonction pour changer le risque d'essaimage
    * @param {boolean} value
    */
   const handleSwarmingRisk = (value) => {
@@ -86,6 +103,7 @@ const HiveModal = function HiveModal({ item, bgHide }) {
       await createHive(newHive).catch(() => false);
       window.location.reload(false);
     };
+
     return (
       <div
         className="fixed inset-0 z-10 flex items-center justify-center py-28"
@@ -119,7 +137,7 @@ const HiveModal = function HiveModal({ item, bgHide }) {
           <div className="grid grid-cols-1 gap-6">
             <div>
               <InputText
-                initial={data.label}
+                initial=""
                 titreLabel="Nom de la ruche"
                 placeholder="ex. La ruche verte"
                 funct={handleLabel}
@@ -132,16 +150,39 @@ const HiveModal = function HiveModal({ item, bgHide }) {
                 funct={handleClusterId}
                 id="clusterId"
                 defaultValue={0}
+                clusters={clusters}
               />
             </div>
             <div>
               <InputNumber
-                initial={data.honey_super}
+                titreLabel="Année de la reine"
+                placeholder="2020"
+                funct={handleQueenBirth}
+                id="queen_birth"
+                defaultValue={2020}
+              />
+            </div>
+            <div>
+              <InputNumber
+                defaultValue={0}
                 titreLabel="Nombre de hausses"
                 placeholder="ex. 1"
                 funct={handleSuperNumber}
                 id="honey_super"
+              />
+            </div>
+            <div>
+              <InputSelectState
+                initial={data.behaviour}
+                titreLabel="Comportement de la colonie"
+                funct={handleBehaviour}
+                id="behaviour"
                 defaultValue={0}
+                listItems={[
+                  { id: 0, label: 'Calme' },
+                  { id: 1, label: 'Bourdonneuse' },
+                  { id: 2, label: 'Agressive' },
+                ]}
               />
             </div>
             <div>
@@ -151,6 +192,11 @@ const HiveModal = function HiveModal({ item, bgHide }) {
                 funct={handleState}
                 id="state"
                 defaultValue={1}
+                listItems={[
+                  { id: 1, label: 'Ruche OK' },
+                  { id: 2, label: 'Ruche à Surveiller' },
+                  { id: 3, label: 'Ruche en danger' },
+                ]}
               />
             </div>
             <div>
@@ -159,7 +205,7 @@ const HiveModal = function HiveModal({ item, bgHide }) {
                 titreLabel="Risque d'essaimage"
                 funct={handleSwarmingRisk}
                 id="swarming_risk"
-                defaultValue="false"
+                defaultValue={0}
               />
             </div>
           </div>
@@ -172,19 +218,19 @@ const HiveModal = function HiveModal({ item, bgHide }) {
    * Fonction pour ouvrir la popup de confirmation des modifications
    * @param {*} event
    */
-  const handleConfirmUpdate = () => {
-    setUpdateConfirmation(true);
-  };
+  // const handleConfirmUpdate = () => {
+  //   setUpdateConfirmation(true);
+  // };
   /**
    * Fonction pour envoyer les modifications sur le back
    */
   const handleChangeHive = async () => {
-    await updateHive(newHive, data.hive_id).catch(() => false);
+    await updateHive(newHive, data.id).catch(() => false);
     window.location.reload(false);
   };
   return (
     <div
-      className="fixed inset-0 z-0 flex items-center justify-center py-28"
+      className="fixed inset-0 z-10 flex items-center justify-center py-28"
       type="button"
     >
       <div
@@ -194,7 +240,7 @@ const HiveModal = function HiveModal({ item, bgHide }) {
       <div className="z-10 w-full h-auto max-w-xl p-10 overflow-y-scroll bg-white border-gray-100 rounded-lg shadow-xl">
         <div className="flex flex-row justify-between">
           <div className="text-xl font-medium text-gray-800">
-            Informations du magasin
+            Informations de la ruche
           </div>
           <svg
             onClick={() => bgHide()}
@@ -212,18 +258,96 @@ const HiveModal = function HiveModal({ item, bgHide }) {
           </svg>
         </div>
         <div className="w-full h-px my-6 bg-gray-200" />
+        <div className="grid grid-cols-1 gap-6">
+          <div>
+            <InputText
+              initial={data.label}
+              titreLabel="Nom de la ruche"
+              placeholder="ex. La ruche verte"
+              funct={handleLabel}
+              id="hiveLabel"
+            />
+          </div>
+          <div>
+            <InputSelectCluster
+              initial={data.cluster_id}
+              titreLabel="Rucher"
+              funct={handleClusterId}
+              id="clusterId"
+              defaultValue={data.cluster_id}
+              clusters={clusters}
+            />
+          </div>
+          <div>
+            <InputNumber
+              initial={data.queen_birth}
+              titreLabel="Année de la reine"
+              placeholder="2020"
+              funct={handleQueenBirth}
+              id="queen_birth"
+              defaultValue={data.queen_birth}
+            />
+          </div>
+          <div>
+            <InputNumber
+              initial={data.honey_super}
+              titreLabel="Nombre de hausses"
+              placeholder="ex. 1"
+              funct={handleSuperNumber}
+              id="honey_super"
+              defaultValue={data.honey_super}
+            />
+          </div>
+          <div>
+            <InputSelectState
+              initial={data.behaviour}
+              titreLabel="Comportement de la colonie"
+              funct={handleBehaviour}
+              id="behaviour"
+              defaultValue={data.behaviour}
+              listItems={[
+                { id: 0, label: 'Calme' },
+                { id: 1, label: 'Bourdonneuse' },
+                { id: 2, label: 'Agressive' },
+              ]}
+            />
+          </div>
+          <div>
+            <InputSelectState
+              initial={data.state}
+              titreLabel="État général de la ruche"
+              funct={handleState}
+              id="state"
+              defaultValue={data.state}
+              listItems={[
+                { id: 1, label: 'Ruche OK' },
+                { id: 2, label: 'Ruche à Surveiller' },
+                { id: 3, label: 'Ruche en danger' },
+              ]}
+            />
+          </div>
+          <div>
+            <InputSelectBool
+              initial={data.swarming_risk}
+              titreLabel="Risque d'essaimage"
+              funct={handleSwarmingRisk}
+              id="swarming_risk"
+              defaultValue={data.swarming_risk}
+            />
+          </div>
+        </div>
         <div className="w-full h-px my-6 bg-gray-200" />
 
         <ButtonModal
           text="Sauvegarder les modifications"
-          onClick={handleConfirmUpdate}
+          onClick={handleChangeHive}
         />
 
-        <Link to={`/reset-password/${data.hive_id}`}>
+        {/* <Link to={`/reset-password/${data.hive_id}`}>
           <button className="mx-auto mt-10 text-center underline" type="button">
             Changer le mot de passe du magasin
           </button>
-        </Link>
+        </Link> */}
       </div>
       {updateConfirmation ? (
         <div className="fixed z-10 inset-0 flex items-center justify-center">

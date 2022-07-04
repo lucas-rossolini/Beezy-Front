@@ -5,6 +5,7 @@ const InputSelectBool = function InputSelectBool({
   titreLabel,
   funct,
   defaultValue,
+  clusters,
 }) {
   const [cluster, setCluster] = useState(defaultValue);
 
@@ -13,15 +14,19 @@ const InputSelectBool = function InputSelectBool({
     <label htmlFor={id} className="block">
       <span className="text-gray-700">{titreLabel}</span>
       <select
+        defaultValue={cluster}
         className="w-full border border-gray-300 rounded-md"
         name="select"
         id="select"
         onChange={(e) => setCluster(e.target.value)}
       >
-        <option value={0}>--</option>
-        <option value={1}>Alençon</option>
-        <option value={2}>Neuilly</option>
-        <option value={3}>Condé</option>
+        {clusters
+          ? clusters.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.label}
+              </option>
+            ))
+          : ''}
       </select>
     </label>
   );

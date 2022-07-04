@@ -1,14 +1,10 @@
 import React from 'react';
 import TableCard from '../Cards/TableCard';
 
-const SummaryContent = function SummaryContent() {
+const SummaryContent = function SummaryContent({ hive, clusters }) {
   return (
     <div className="w-full md:flex md:justify-between">
-      <div className=" md:min-w-1/2">
-        <div className="md:grid md:gap-10 md:grid-cols-2 md:grid-rows-2 md:mt-10">
-          <TableCard />
-        </div>
-      </div>
+      <TableCard hive={hive} clusters={clusters} />
     </div>
   );
 };

@@ -9,7 +9,7 @@ const bgColors = {
   blueCard: `${cardStyle} bg-blueCard`,
 };
 
-const SmallCard = function SmallCard({ bgColor, title, icon }) {
+const SmallCard = function SmallCard({ bgColor, title, icon, count }) {
   return (
     <div className={bgColors[bgColor]}>
       <div className="pt-0 pb-4 w-full flex justify-between w-">
@@ -19,7 +19,7 @@ const SmallCard = function SmallCard({ bgColor, title, icon }) {
           </div>
           <div className="flex flex-col">
             <h3 className="text-black text-xl pt-8">{title}</h3>
-            <span className="text-4xl pt-6">0</span>
+            <span className="text-4xl pt-6">{count}</span>
           </div>
         </div>
       </div>

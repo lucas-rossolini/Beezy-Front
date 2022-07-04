@@ -4,10 +4,10 @@ import { Menu, Transition } from '@headlessui/react';
 import { React, Fragment, useEffect, useRef, useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { dots } from '../../assets/icons/index';
-import { deleteHive } from '../../api/hives';
-import HiveModal from '../popups/HiveModal';
+import { deleteVisit } from '../../api/visits';
+import VisitModal from '../popups/VisitModal';
 
-export default function ButtonPopover({ itemId, item }) {
+export default function ButtonPopoverVisit({ itemId, item }) {
   const [popup, setPopup] = useState({
     data: null,
     show: false,
@@ -15,7 +15,7 @@ export default function ButtonPopover({ itemId, item }) {
   });
 
   const handleDelete = async () => {
-    await deleteHive(itemId).catch(() => true);
+    await deleteVisit(itemId).catch(() => true);
     window.location.reload(false);
   };
 
@@ -43,7 +43,7 @@ export default function ButtonPopover({ itemId, item }) {
 
   return (
     <div className="absolute right-5 top-6 text-right">
-      {popup.show ? <HiveModal item={popup} bgHide={bgHidePopup} /> : null}
+      {popup.show ? <VisitModal item={popup} bgHide={bgHidePopup} /> : null}
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="z-20 inline-flex w-full justify-center rounded-md  px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">

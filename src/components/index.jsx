@@ -2,7 +2,9 @@
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import DashboardContent from './Content/DashboardContent';
+import SettingsContent from './Content/SettingsContent';
 import HivesContent from './Content/HivesContent';
+import AllVisitsContent from './Content/AllVisitsContent';
 import HiveDetailsContent from './Content/HiveDetailsContent';
 import NavBar from './Navigation/NavBar';
 import SubMenu from './Navigation/SubMenu';
@@ -17,7 +19,9 @@ export {
   Header,
   Footer,
   DashboardContent,
+  SettingsContent,
   HivesContent,
+  AllVisitsContent,
   HiveDetailsContent,
   NavBar,
   SubMenu,

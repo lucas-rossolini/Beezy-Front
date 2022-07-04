@@ -2,8 +2,6 @@ import { React, useState } from 'react';
 import ButtonModal from '../Buttons/ButtonModal';
 import HiveModal from '../popups/HiveModal';
 
-// import ButtonSecondary from '../Buttons/ButtonSecondary';
-
 const Header = function Header({ title, text, button }) {
   const [popup, setPopup] = useState({
     data: null,
@@ -43,8 +41,6 @@ const Header = function Header({ title, text, button }) {
         ''
       )}
       {popup.show ? <HiveModal item={popup} bgHide={bgHidePopup} /> : null}
-
-      {/* <ButtonSecondary text="Déco" /> */}
     </div>
   );
 };

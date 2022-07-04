@@ -5,6 +5,7 @@ import VisitsContent from './VisitsContent';
 // import LongCard from '../Cards/LongCard';
 import Header from '../Header/Header';
 import SubMenu from '../Navigation/SubMenu';
+import clusters from '../../api/fake/clusters';
 
 import { oneHive } from '../../api/hives';
 
@@ -20,10 +21,16 @@ const HiveDetailsContent = function HiveDetailsContent({ id }) {
   useEffect(() => {
     oneHive(id)
       .then((result) => {
-        setHive(result[0]);
+        setHive(result);
       })
       .catch(() => true);
   }, []);
+
+  let visits = [];
+
+  if (hive.visits) {
+    visits = Object.entries(hive.visits);
+  }
 
   return (
     <div className="w-full p-8 md:flex md:justify-between">
@@ -33,8 +40,14 @@ const HiveDetailsContent = function HiveDetailsContent({ id }) {
         <SubMenu array={menu} id={id} />
         <div>
           <Routes>
-            <Route path="/" element={<SummaryContent />} />
-            <Route path="visits" element={<VisitsContent />} />
+            <Route
+              path="/"
+              element={<SummaryContent hive={hive} clusters={clusters} />}
+            />
+            <Route
+              path="visits"
+              element={<VisitsContent hive={hive} visits={visits} />}
+            />
           </Routes>
         </div>
       </div>

@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
-// import { Link } from "react-router-dom";
 import BigCard from '../Cards/BigCard';
 import SmallCard from '../Cards/SmallCard';
 import LongCard from '../Cards/LongCard';
 import Header from '../Header/Header';
 
-// import HiveDetails from '../popups/HiveDetails';
-import { allHives } from '../../api/hives';
+import { allHives, allHivesGrouped } from '../../api/hives';
 
 import { danger, check, magnifier, flyingBee } from '../../assets/icons';
 
 const DashboardContent = function DashboardContent() {
   const [list, setList] = useState([]);
-
-  // const [popup, setPopup] = useState({
-  //   data: null,
-  //   show: false,
-  //   new: false,
-  // });
+  const [hiveGrouped, setHiveGrouped] = useState([]);
 
   useEffect(() => {
     allHives()
@@ -27,41 +20,45 @@ const DashboardContent = function DashboardContent() {
       .catch(() => true);
   }, []);
 
-  // const showPopupNew = () => {
-  //   setPopup({
-  //     data: {},
-  //     show: true,
-  //     new: true,
-  //   });
-  // };
+  useEffect(() => {
+    allHivesGrouped()
+      .then((result) => {
+        setHiveGrouped(result);
+      })
+      .catch(() => true);
+  }, []);
 
-  // console.log(showPopupNew);
-
-  // const bgHidePopup = () => {
-  //   setPopup({
-  //     data: null,
-  //     show: false,
-  //   });
-  // };
+  console.log(hiveGrouped);
 
   return (
     <div className="w-full p-8 md:flex md:justify-between">
-      {/* {popup.show ? <HiveDetails item={popup} bgHide={bgHidePopup} /> : null} */}
       <div className="md:ml-72 md:min-w-1/2">
-        <Header title="Bonjour Pascal" text=" " />
+        <Header title="Bonjour" text=" " />
         <BigCard hivesList={list} />
         <div className="md:grid md:gap-10 md:grid-cols-2 md:grid-rows-2 md:mt-10">
-          <SmallCard bgColor="redCard" title="Ruches en danger" icon={danger} />
-          <SmallCard bgColor="greenCard" title="Ruches en santé" icon={check} />
+          <SmallCard
+            bgColor="redCard"
+            title="Ruches en danger"
+            icon={danger}
+            count={hiveGrouped[3] || 0}
+          />
+          <SmallCard
+            bgColor="greenCard"
+            title="Ruches en santé"
+            icon={check}
+            count={hiveGrouped[1] || 0}
+          />
           <SmallCard
             bgColor="purpleCard"
             title="Ruches à surveiller"
             icon={magnifier}
+            count={hiveGrouped[2] || 0}
           />
           <SmallCard
             bgColor="blueCard"
             title="Risque d'essaimage"
             icon={flyingBee}
+            count={hiveGrouped.swarm || 0}
           />
         </div>
       </div>

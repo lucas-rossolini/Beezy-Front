@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DashboardContent, NavBar } from '../components';
+import { AllVisitsContent, NavBar } from '../components';
 
 const Visits = function Visits() {
   return (
@@ -8,9 +8,8 @@ const Visits = function Visits() {
       {/* <Header /> */}
 
       <div className="flex flex-col w-screen h-screen bg-white pb-12 md:mb-14">
-        VISITES !
         <NavBar />
-        <DashboardContent />
+        <AllVisitsContent />
       </div>
 
       {/* <Footer /> */}

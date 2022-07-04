@@ -30,7 +30,7 @@ const BigCard = function BigCard({ hivesList }) {
             <img src={location} alt="hive-icon" className="max-w-icon26" />
           </div>
           <h3 className="text-greyFonts text-sm pt-6">Ruchers</h3>
-          <span className="text-5xl">0</span>
+          <span className="text-5xl">3</span>
         </div>
       </div>
     </div>

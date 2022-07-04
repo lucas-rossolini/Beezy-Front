@@ -1,10 +1,10 @@
 import { baseApi } from './backRouting';
 
-const allHives = () =>
+const allVisitsByHive = (rucheId) =>
   new Promise((resolve, reject) => {
     (async () => {
       try {
-        const response = await baseApi.get(`/hives`, {});
+        const response = await baseApi.get(`/visits/${rucheId}`);
         resolve(response.data);
       } catch (err) {
         reject(err);
@@ -12,11 +12,11 @@ const allHives = () =>
     })();
   });
 
-const allHivesGrouped = () =>
+const allVisits = () =>
   new Promise((resolve, reject) => {
     (async () => {
       try {
-        const response = await baseApi.get(`/hives/group-by-state`, {});
+        const response = await baseApi.get(`/visits`);
         resolve(response.data);
       } catch (err) {
         reject(err);
@@ -24,11 +24,11 @@ const allHivesGrouped = () =>
     })();
   });
 
-const oneHive = (hiveId) =>
+const allActions = () =>
   new Promise((resolve, reject) => {
     (async () => {
       try {
-        const response = await baseApi.get(`/hives/${hiveId}`);
+        const response = await baseApi.get(`/visits/actions`);
         resolve(response.data);
       } catch (err) {
         reject(err);
@@ -36,11 +36,11 @@ const oneHive = (hiveId) =>
     })();
   });
 
-const lastObservHive = () =>
+const oneVisit = (visitId) =>
   new Promise((resolve, reject) => {
     (async () => {
       try {
-        const response = await baseApi.get(`/hives/lastObserv`);
+        const response = await baseApi.get(`/visits/${visitId}`);
         resolve(response.data);
       } catch (err) {
         reject(err);
@@ -48,11 +48,11 @@ const lastObservHive = () =>
     })();
   });
 
-const createHive = (data) =>
+const createVisit = (data) =>
   new Promise((resolve, reject) => {
     (async () => {
       try {
-        const response = await baseApi.post(`/hives`, data);
+        const response = await baseApi.post(`/visits`, data);
         resolve(response.data);
       } catch (err) {
         reject(err);
@@ -60,11 +60,11 @@ const createHive = (data) =>
     })();
   });
 
-const updateHive = (data, hiveId) =>
+const updateVisit = (data, visitId) =>
   new Promise((resolve, reject) => {
     (async () => {
       try {
-        const response = await baseApi.put(`/hives/${hiveId}`, data);
+        const response = await baseApi.put(`/visits/${visitId}`, data);
         resolve(response.data);
         resolve();
       } catch (err) {
@@ -73,11 +73,23 @@ const updateHive = (data, hiveId) =>
     })();
   });
 
-const deleteHive = (hiveId) =>
+const deleteVisit = (visitId) =>
   new Promise((resolve, reject) => {
     (async () => {
       try {
-        const response = await baseApi.delete(`/hives/${hiveId}`);
+        const response = await baseApi.delete(`/visits/${visitId}`);
+        resolve(response.data);
+      } catch (err) {
+        reject(err);
+      }
+    })();
+  });
+
+const deleteAll = (rucheId) =>
+  new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        const response = await baseApi.delete(`/visits/${rucheId}`);
         resolve(response.data);
       } catch (err) {
         reject(err);
@@ -86,11 +98,12 @@ const deleteHive = (hiveId) =>
   });
 
 export {
-  allHives,
-  allHivesGrouped,
-  oneHive,
-  lastObservHive,
-  createHive,
-  updateHive,
-  deleteHive,
+  allVisits,
+  allVisitsByHive,
+  allActions,
+  oneVisit,
+  createVisit,
+  updateVisit,
+  deleteVisit,
+  deleteAll,
 };

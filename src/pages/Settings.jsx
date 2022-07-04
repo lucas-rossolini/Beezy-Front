@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { DashboardContent, NavBar } from '../components';
+import { SettingsContent, NavBar } from '../components';
 
-const Setting = function Setting() {
+const Settings = function Settings() {
   return (
     <>
       {/* <Header /> */}
 
       <div className="flex flex-col w-screen h-screen bg-white pb-12 md:mb-14">
         <NavBar />
-        <DashboardContent />
+        <SettingsContent />
       </div>
 
       {/* <Footer /> */}
@@ -17,4 +17,4 @@ const Setting = function Setting() {
   );
 };
 
-export default Setting;
+export default Settings;

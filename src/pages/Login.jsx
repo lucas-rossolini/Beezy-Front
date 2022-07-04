@@ -7,6 +7,12 @@ import ButtonPrimary from '../components/Buttons/ButtonPrimary';
 import { setCookie } from '../api/backRouting';
 import AuthContext from '../contexts/authContext';
 
+import img from '../assets/images/bee-hive.jpeg';
+
+// Image Import
+const background = `(${img})`;
+const url = 'url';
+
 const Login = function Login() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [email, setEmail] = useState('');
@@ -48,9 +54,10 @@ const Login = function Login() {
     const run = async () => {
       try {
         e.preventDefault();
-        await authUser(email, password);
-        setCookie(email);
+        const token = await authUser(email, password);
+        setCookie(token.data);
         handleLogged();
+        window.location.reload(false);
       } catch (err) {
         setIsError(true);
         empty();
@@ -104,7 +111,10 @@ const Login = function Login() {
             </div>
           </form>
         </div>
-        <div className="hidden w-full h-full bg-center bg-cover lg:block max-w-1/2" />
+        <div
+          className="hidden w-full h-full bg-center bg-cover lg:block max-w-1/2"
+          style={{ backgroundImage: url + background }}
+        />
       </div>
     );
   }

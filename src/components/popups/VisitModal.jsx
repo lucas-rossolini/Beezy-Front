@@ -1,71 +1,49 @@
 import React, { useEffect, useRef, useState } from 'react';
-// import { Link } from "react-router-dom";
-import { createObservation, updateObservation } from '../../api/visits';
-import InputDate from '../inputs/InputDate';
-import InputSelectBool from '../inputs/InputSelectBool';
-import InputSelectStatus from '../inputs/InputSelectState';
-import ButtonPrimary from '../Buttons/ButtonPrimary';
+import { createVisit, updateVisit } from '../../api/visits';
+import { InputText, InputSelectBool } from '../inputs';
+import ButtonModal from '../Buttons/ButtonModal';
 
-// POPUP POUR MODIFIER LES OBSERVATIONS
+// POPUP POUR MODIFIER LES RUCHES
 
-const ObservationDetails = function ObservationDetails({
-  item,
-  bgHide,
-  rucheId,
-}) {
+const VisitModal = function VisitModal({ item, bgHide, hive, actions }) {
   const popup = useRef();
+  const { data } = item;
 
-  const [newObservation, setNewObservation] = useState({
-    date: null,
-    couvain: false,
-    miel: false,
-    status: '',
-    ruche_id: rucheId,
-  });
+  const [newVisit, setNewVisit] = useState(data);
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
 
   /**
-   * Fonction pour mettre à jour les données de l'observation en fonction des inputs modifier
+   * Fonction pour mettre à jour les données de la ruche en fonction des inputs modifiés
    * @param {strign} value
    * @param {string} type
    */
-  const observationUpdate = (value, type) => {
-    const newData = newObservation;
+  const visitUpdate = (value, type) => {
+    const newData = newVisit;
     newData[type] = value;
-    setNewObservation(newData);
+    setNewVisit(newData);
   };
   /**
-   * Fonction pour récupérer la valeur de l'input
-   * @param {date} value
-   */
-  const handleDate = (value) => {
-    observationUpdate(value, 'date');
-  };
-  /**
-   * Fonction pour récupérer la valeur de l'input
-   * @param {number} value
-   */
-  const handleCouvain = (value) => {
-    observationUpdate(value, 'couvain');
-  };
-  /**
-   * Fonction pour récupérer la valeur de l'input
+   * Fonction pour changer le nom de la ruche
    * @param {string} value
    */
-  const handleMiel = (value) => {
-    observationUpdate(value, 'miel');
-  };
-  /**
-   * Fonction pour récupérer la valeur de l'input
-   * @param {string} value
-   */
-  const handleStatus = (value) => {
-    observationUpdate(value, 'status');
+  const handleHiveId = (value) => {
+    visitUpdate(value, 'hive_id');
   };
 
-  // const handleRucheId = (value) => {
-  //   observationUpdate(value, "ruche_id");
-  // };
+  /**
+   * Fonction pour changer le risque d'essaimage
+   * @param {boolean} value
+   */
+  const handleAction = (value, actionId) => {
+    if (value === 0) return;
+
+    if (!data.actions) {
+      data.actions = {};
+    }
+
+    data.actions[actionId] = value;
+    visitUpdate(value, data.actions);
+  };
 
   // fermeture de la popup au click en dehors
   useEffect(() => {
@@ -80,13 +58,14 @@ const ObservationDetails = function ObservationDetails({
   }, [popup]);
 
   if (item.new) {
-    const handleNewObservation = async () => {
-      await createObservation(newObservation).catch(() => false);
+    const handleNewVisit = async () => {
+      handleHiveId(hive.id);
+      await createVisit(newVisit).catch(() => false);
       window.location.reload(false);
     };
     return (
       <div
-        className="fixed inset-0 z-0 flex items-center justify-center py-28"
+        className="fixed inset-0 z-10 flex items-center justify-center py-28"
         type="button"
       >
         <div
@@ -96,7 +75,7 @@ const ObservationDetails = function ObservationDetails({
         <div className="z-10 w-full h-auto max-w-xl p-10 overflow-y-scroll bg-white border-gray-100 rounded-lg shadow-xl">
           <div className="flex flex-row justify-between">
             <div className="text-xl font-medium text-gray-800">
-              Informations de l&apos;observation
+              Création d&apos;une nouvelle visite sur {hive.label}
             </div>
             <svg
               onClick={() => bgHide()}
@@ -114,66 +93,43 @@ const ObservationDetails = function ObservationDetails({
             </svg>
           </div>
           <div className="w-full h-px my-6 bg-gray-200" />
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <InputDate
-                titreLabel="Date de l'observation"
-                placeholder="ex. 20/01/2022"
-                handleDate={handleDate}
-                id="observDate"
+          <div className="grid grid-cols-1 gap-6">
+            <div className="hidden">
+              <InputText
+                initial={hive.id}
+                titreLabel="identifiant de la ruche"
+                placeholder="ex. 0"
+                funct={handleHiveId}
+                id="hive_id"
               />
             </div>
-            <div>
-              <InputSelectBool
-                initial={item.couvain}
-                titreLabel="Cadre de couvain ?"
-                funct={handleCouvain}
-                id="boolCouvain"
-              />
-            </div>
-            <div>
-              <InputSelectBool
-                initial={item.miel}
-                titreLabel="Cadre de miel ?"
-                funct={handleMiel}
-                id="boolMiel"
-              />
-            </div>
-            <div>
-              <InputSelectStatus
-                initial={item.miel}
-                titreLabel="Status général de la ruche"
-                funct={handleStatus}
-                id="boolStatus"
-              />
-            </div>
+            {actions.map((action) => (
+              <div key={action.id}>
+                <InputSelectBool
+                  initial={0}
+                  titreLabel={action.label}
+                  funct={handleAction}
+                  id={action.id}
+                  defaultValue={0}
+                />
+              </div>
+            ))}
           </div>
-          <div className="w-full h-px my-6 bg-gray-200" />
-          <ButtonPrimary
-            text="Ajouter cette observation"
-            onClick={handleNewObservation}
-          />
+          <ButtonModal text="Ajouter la visite" onClick={handleNewVisit} />
         </div>
       </div>
     );
   }
   /**
-   * Fonction pour ouvrir la popup de confirmation des modifications
-   * @param {*} event
-   */
-  const handleConfirmUpdate = () => {
-    setUpdateConfirmation(true);
-  };
-  /**
    * Fonction pour envoyer les modifications sur le back
    */
-  const handleChangeObservation = async () => {
-    await updateObservation(newObservation, item.ruche_id).catch(() => false);
+  const handleChangeHive = async () => {
+    await updateVisit(newVisit, data.id).catch(() => false);
     window.location.reload(false);
   };
   return (
     <div
-      className="fixed inset-0 z-0 flex items-center justify-center py-28"
+      className="fixed inset-0 z-10 flex items-center justify-center py-28"
       type="button"
     >
       <div
@@ -183,7 +139,7 @@ const ObservationDetails = function ObservationDetails({
       <div className="z-10 w-full h-auto max-w-xl p-10 overflow-y-scroll bg-white border-gray-100 rounded-lg shadow-xl">
         <div className="flex flex-row justify-between">
           <div className="text-xl font-medium text-gray-800">
-            Nouvelle observation
+            Informations de la ruche
           </div>
           <svg
             onClick={() => bgHide()}
@@ -201,46 +157,38 @@ const ObservationDetails = function ObservationDetails({
           </svg>
         </div>
         <div className="w-full h-px my-6 bg-gray-200" />
-        <div className="grid grid-cols-2 gap-6">
-          <div>
-            <InputDate
-              titreLabel="Date de l'observation"
-              placeholder="ex. 20/01/2022"
-              handleDate={handleDate}
-              id="startDate"
+        <div className="grid grid-cols-1 gap-6">
+          <div className="hidden">
+            <InputText
+              initial={hive.id}
+              titreLabel="identifiant de la ruche"
+              placeholder="ex. 0"
+              funct={handleHiveId}
+              id="hive_id"
             />
           </div>
           <div>
             <InputSelectBool
-              initial={item.couvain}
-              titreLabel="Cadre de couvain ?"
-              funct={handleCouvain}
-              id="boolCouvain"
-            />
-          </div>
-          <div>
-            <InputSelectBool
-              initial={item.miel}
-              titreLabel="Cadre de miel ?"
-              funct={handleMiel}
-              id="boolMiel"
-            />
-          </div>
-          <div>
-            <InputSelectStatus
-              initial={item.miel}
-              titreLabel="Status général de la ruche"
-              funct={handleStatus}
-              id="boolMiel"
+              initial={data.swarming_risk}
+              titreLabel="Risque d'essaimage"
+              funct={handleAction}
+              id="swarming_risk"
+              defaultValue={data.swarming_risk}
             />
           </div>
         </div>
         <div className="w-full h-px my-6 bg-gray-200" />
 
-        <ButtonPrimary
+        <ButtonModal
           text="Sauvegarder les modifications"
-          onClick={handleConfirmUpdate}
+          onClick={handleChangeHive}
         />
+
+        {/* <Link to={`/reset-password/${data.hive_id}`}>
+          <button className="mx-auto mt-10 text-center underline" type="button">
+            Changer le mot de passe du magasin
+          </button>
+        </Link> */}
       </div>
       {updateConfirmation ? (
         <div className="fixed z-10 inset-0 flex items-center justify-center">
@@ -248,15 +196,14 @@ const ObservationDetails = function ObservationDetails({
           <div className="py-8 px-14 bg-white border-gray-200 rounded-lg z-50  border-2 shadow-md text-center">
             <div className="flex justify-center items-center my-5 text-gray-600">
               <span className="ml-3 text-2xl">
-                Etes-vous sûr de vouloir modifier les données de cette
-                observation ?
+                Etes-vous sûr de vouloir modifier les données de cette ruche ?
               </span>
             </div>
             <div className="flex justify-around">
               <button
                 type="button"
                 className="py-2 px-8 bg-blue-600 text-blue-100 rounded-full font-medium shadow-md w-2/5"
-                onClick={handleChangeObservation}
+                onClick={handleChangeHive}
               >
                 Confirmer
               </button>
@@ -277,4 +224,4 @@ const ObservationDetails = function ObservationDetails({
   );
 };
 
-export default ObservationDetails;
+export default VisitModal;

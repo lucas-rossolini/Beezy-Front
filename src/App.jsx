@@ -34,7 +34,7 @@ const App = function App() {
             <Route path="/hives/:id/*" element={<HiveDetails />} />
             <Route exact path="/visits" element={<Visits />} />
             <Route exact path="/apiaries" element={<Apiaries />} />
-            <Route exact path="/setting" element={<Settings />} />
+            <Route exact path="/settings" element={<Settings />} />
           </>
         )}
         <Route

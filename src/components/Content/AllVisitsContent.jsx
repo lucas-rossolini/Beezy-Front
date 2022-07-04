@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LongCard from '../Cards/LongCard';
 import Header from '../Header/Header';
-import HiveCard from '../Cards/HiveCard';
-import { allHives } from '../../api/hives';
-import ButtonPopover from '../Buttons/ButtonPopover';
+import ActionCard from '../Cards/ActionCard';
+import { allVisits } from '../../api/visits';
 
-const HivesContent = function HivesContent() {
+const AllVisitsContent = function AllVisitsContent() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    allHives()
+    allVisits()
       .then((result) => {
         setList(result);
       })
@@ -18,24 +17,22 @@ const HivesContent = function HivesContent() {
   }, []);
 
   console.log(list);
+
   return (
     <div className="w-full p-8 md:flex md:justify-between">
       <div className="md:ml-72 md:min-w-1/2">
         <Header
-          title="Vos ruches"
-          text="Retrouvez ici la liste de vos ruches enregistrées"
-          button
-          modal="hive"
+          title="Vos actions"
+          text="Retrouvez ici la liste de vos actions pour chaque visite"
         />
 
         <div className="md:mt-10">
           {list.map((item) => (
-            <div className="relative" key={item.id}>
-              <ButtonPopover itemId={item.id} item={item} />
-              <Link to={`/hives/${item.id}`}>
-                <HiveCard
+            <div className="relative" key={item.va_id}>
+              <Link to={`/hives/${item.hive_id}`}>
+                <ActionCard
                   title={item.label}
-                  state={item.state}
+                  hive={item.hive_label}
                   lastVisit={item.last_visit_date}
                 />
               </Link>
@@ -50,4 +47,4 @@ const HivesContent = function HivesContent() {
   );
 };
 
-export default HivesContent;
+export default AllVisitsContent;
