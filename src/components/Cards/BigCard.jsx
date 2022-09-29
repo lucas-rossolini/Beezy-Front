@@ -1,7 +1,7 @@
 import React from 'react';
 import { hive, upper, location } from '../../assets/icons/index';
 
-const BigCard = function BigCard({ hivesList }) {
+const BigCard = function BigCard({ hivesList, clusters }) {
   let totalUppers = 0;
   hivesList.forEach((element) => {
     totalUppers += element.honey_super;
@@ -30,7 +30,7 @@ const BigCard = function BigCard({ hivesList }) {
             <img src={location} alt="hive-icon" className="max-w-icon26" />
           </div>
           <h3 className="text-greyFonts text-sm pt-6">Ruchers</h3>
-          <span className="text-5xl">3</span>
+          <span className="text-5xl">{clusters.length - 1}</span>
         </div>
       </div>
     </div>

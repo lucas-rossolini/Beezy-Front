@@ -15,7 +15,7 @@ const NavBar = function NavBar() {
   const menus = [
     { icon: home, name: 'Accueil', path: '/home' },
     { icon: hive, name: 'Ruches', path: '/hives' },
-    { icon: eye, name: 'Visites', path: '/visits' },
+    { icon: eye, name: 'Actions', path: '/visits' },
     // { icon: location, name: 'Ruchers', path: '/apiaries' },
     { icon: settings, name: 'Paramètres', path: '/settings' },
   ];

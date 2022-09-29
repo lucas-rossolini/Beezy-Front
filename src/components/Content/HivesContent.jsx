@@ -17,7 +17,6 @@ const HivesContent = function HivesContent() {
       .catch(() => true);
   }, []);
 
-  console.log(list);
   return (
     <div className="w-full p-8 md:flex md:justify-between">
       <div className="md:ml-72 md:min-w-1/2">

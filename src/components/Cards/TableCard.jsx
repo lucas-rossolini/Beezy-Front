@@ -7,7 +7,6 @@ const TableCard = function TableCard({ hive, clusters }) {
     { id: 2, label: 'Agressive' },
   ];
 
-  console.log(hive);
   return (
     <div className="rounded-cardRadius flex bg-purpleCard w-full mt-10 p-18 md:mt-12">
       <div className="pt-4 pb-4 w-full flex-col justify-between md:px-8">

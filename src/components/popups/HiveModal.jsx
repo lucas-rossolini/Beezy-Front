@@ -7,7 +7,7 @@ import {
   InputSelectBool,
   InputNumber,
 } from '../inputs';
-import ButtonModal from '../Buttons/ButtonModal';
+import ButtonModalValidation from '../Buttons/ButtonModalValidation';
 import clusters from '../../api/fake/clusters';
 
 // POPUP POUR MODIFIER LES RUCHES
@@ -209,7 +209,10 @@ const HiveModal = function HiveModal({ item, bgHide }) {
               />
             </div>
           </div>
-          <ButtonModal text="Ajouter la ruche" onClick={handleNewHive} />
+          <ButtonModalValidation
+            text="Ajouter la ruche"
+            onClick={handleNewHive}
+          />
         </div>
       </div>
     );
@@ -338,7 +341,7 @@ const HiveModal = function HiveModal({ item, bgHide }) {
         </div>
         <div className="w-full h-px my-6 bg-gray-200" />
 
-        <ButtonModal
+        <ButtonModalValidation
           text="Sauvegarder les modifications"
           onClick={handleChangeHive}
         />

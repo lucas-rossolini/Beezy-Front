@@ -3,6 +3,7 @@ import BigCard from '../Cards/BigCard';
 import SmallCard from '../Cards/SmallCard';
 import LongCard from '../Cards/LongCard';
 import Header from '../Header/Header';
+import clusters from '../../api/fake/clusters';
 
 import { allHives, allHivesGrouped } from '../../api/hives';
 
@@ -28,13 +29,11 @@ const DashboardContent = function DashboardContent() {
       .catch(() => true);
   }, []);
 
-  console.log(hiveGrouped);
-
   return (
     <div className="w-full p-8 md:flex md:justify-between">
       <div className="md:ml-72 md:min-w-1/2">
-        <Header title="Bonjour" text=" " />
-        <BigCard hivesList={list} />
+        <Header title="Tableau de bord" text=" " />
+        <BigCard hivesList={list} clusters={clusters} />
         <div className="md:grid md:gap-10 md:grid-cols-2 md:grid-rows-2 md:mt-10">
           <SmallCard
             bgColor="redCard"

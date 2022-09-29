@@ -23,7 +23,6 @@ const getCookie = () => {
 /**
  * Url de base pour chaque requete vers la REST API
  */
-// axios.defaults.withCredentials = true;
 const token = getCookie();
 const baseApi = axios.create({
   baseURL: process.env.REACT_APP_DATABASE_URL,

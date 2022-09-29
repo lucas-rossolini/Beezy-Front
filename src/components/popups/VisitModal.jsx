@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createVisit, updateVisit } from '../../api/visits';
 import { InputText, InputSelectBool } from '../inputs';
-import ButtonModal from '../Buttons/ButtonModal';
+import ButtonModalValidation from '../Buttons/ButtonModalValidation';
 
 // POPUP POUR MODIFIER LES RUCHES
 
@@ -115,7 +115,10 @@ const VisitModal = function VisitModal({ item, bgHide, hive, actions }) {
               </div>
             ))}
           </div>
-          <ButtonModal text="Ajouter la visite" onClick={handleNewVisit} />
+          <ButtonModalValidation
+            text="Ajouter la visite"
+            onClick={handleNewVisit}
+          />
         </div>
       </div>
     );
@@ -179,7 +182,7 @@ const VisitModal = function VisitModal({ item, bgHide, hive, actions }) {
         </div>
         <div className="w-full h-px my-6 bg-gray-200" />
 
-        <ButtonModal
+        <ButtonModalValidation
           text="Sauvegarder les modifications"
           onClick={handleChangeHive}
         />
