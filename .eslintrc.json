@@ -14,7 +14,7 @@
   "plugins": ["react", "prettier"],
   "rules": {
     "prettier/prettier": ["error"],
-    "react/prop-types": "warn",
+    "react/prop-types": 0,
     "react/function-component-definition": "warn",
     "no-console": "warn"
   },
