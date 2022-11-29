@@ -1,24 +1,50 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-
-import { Home, Page404 } from 'pages';
-import { Header, Footer } from 'components';
+import { React, useState, useCallback } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { isLogged } from './api/auth';
+import {
+  Home,
+  Login,
+  Hives,
+  Visits,
+  Apiaries,
+  Settings,
+  HiveDetails,
+} from './pages';
+import AuthContext from './contexts/authContext';
 
 import './App.scss';
 
-function App() {
+const App = function App() {
+  const [logged, setLogged] = useState(isLogged());
+
+  const handleLogged = useCallback(() => {
+    setLogged(!logged);
+  }, [logged]);
+
   return (
-    <>
-      <Header />
-
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <AuthContext.Provider value={{ logged, handleLogged }}>
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="*" element={<Page404 />} />
+        {!logged ? (
+          <Route exact path="/" element={<Login />} />
+        ) : (
+          <>
+            <Route exact path="/home" element={<Home />} />
+            <Route exact path="/hives" element={<Hives />} />
+            <Route path="/hives/:id/*" element={<HiveDetails />} />
+            <Route exact path="/visits" element={<Visits />} />
+            <Route exact path="/apiaries" element={<Apiaries />} />
+            <Route exact path="/settings" element={<Settings />} />
+          </>
+        )}
+        <Route
+          exact
+          path="*"
+          element={<Navigate to={logged ? '/home' : '/'} />}
+        />
       </Routes>
-
-      <Footer />
-    </>
+    </AuthContext.Provider>
   );
-}
+};
 
 export default App;

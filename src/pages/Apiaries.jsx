@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DashboardContent, NavBar } from '../components';
 
-const Home = function Home() {
+const Apiaries = function Apiaries() {
   return (
     <>
       {/* <Header /> */}
@@ -17,4 +17,4 @@ const Home = function Home() {
   );
 };
 
-export default Home;
+export default Apiaries;
